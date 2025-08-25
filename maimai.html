@@ -9,130 +9,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
   <!-- gif.js (client-side GIF encoder) -->
   <script src="https://unpkg.com/gif.js.optimized/dist/gif.js"></script>
-
-  <style>
-    :root{
-      --ink:#f0f6ff;
-      --muted:#a2b1d9;
-      --accent:#ff5ea2;
-      --accent-2:#00ffd0;
-      --btn-edge:#0f1230;
-
-      /* preview polish */
-      --preview-inset: 3px; /* trim live video by a hair so it never peeks */
-      --glass-bg: rgba(255,255,255,0.10);
-      --glass-stroke: rgba(255,255,255,0.35);
-      --glass-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      --glass-blur: 18px;
-      --glass-sat: 140%;
-      --glass-spot: radial-gradient(300px 300px at var(--spot-x,50%) var(--spot-y,40%),
-                                    rgba(255,255,255,0.18) 0%,
-                                    rgba(255,255,255,0.06) 35%,
-                                    rgba(255,255,255,0.00) 60%);
-    }
-
-    html,body{height:100%;}
-    body{
-      margin:0;
-      color:var(--ink);
-      font-family:"Press Start 2P", system-ui, sans-serif;
-      background:#000 url("background_img.png") no-repeat center top / cover;
-      min-height:100vh;
-    }
-
-    .wrap{max-width:1100px;margin:0 auto;padding:24px;}
-    h1{font-size:20px;letter-spacing:1px;margin:0 0 18px;text-shadow:2px 2px 0 #000;}
-    .bar{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 20px;}
-
-    /* Glassy cards/pills/buttons */
-    .card{
-      background:var(--glass-bg);
-      border:1px solid var(--glass-stroke);
-      box-shadow:var(--glass-shadow);
-      border-radius:16px;
-      padding:16px;
-      backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
-      -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
-      position:relative;overflow:hidden;
-    }
-    .card::after{
-      content:"";position:absolute;inset:0;pointer-events:none;
-      background:linear-gradient(to bottom, rgba(255,255,255,0.12), rgba(255,255,255,0) 30%),var(--glass-spot);
-      mix-blend-mode:screen;
-    }
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;
-      border:1px solid var(--glass-stroke);box-shadow:var(--glass-shadow);
-      background:var(--glass-bg);backdrop-filter:blur(12px) saturate(var(--glass-sat));-webkit-backdrop-filter:blur(12px) saturate(var(--glass-sat));
-      color:#fff;font-size:10px;
-    }
-    .tabbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
-    .btn{
-      cursor:pointer;border:0;color:white;padding:12px 14px;font-size:12px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;transition:transform .05s ease;
-      background:linear-gradient(to bottom, rgba(255,255,255,0.20), rgba(255,255,255,0.06));
-      border:1px solid var(--glass-stroke);
-      box-shadow:0 2px 0 rgba(255,255,255,0.18) inset, var(--glass-shadow);
-      backdrop-filter:blur(10px) saturate(var(--glass-sat));-webkit-backdrop-filter:blur(10px) saturate(var(--glass-sat));
-    }
-    .btn.secondary{background:linear-gradient(to bottom, rgba(255,255,255,0.16), rgba(255,255,255,0.05));}
-    .btn.danger{background:linear-gradient(to bottom, rgba(255,120,120,0.25), rgba(255,120,120,0.08));}
-    .btn:active{transform:translateY(2px);}
-    .btn[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(100%);}
-
-    label small{color:var(--muted);font-size:9px;display:block;margin-top:6px;line-height:1.4}
-    input[type="number"], input[type="range"], select{
-      width:100%;background:#0f1333;border:2px solid #0a0d24;color:var(--ink);padding:10px;border-radius:6px;
-      box-shadow:inset 0 0 0 4px #000;font:inherit;font-size:12px;
-    }
-    input[type="file"]{display:none;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
-    .thumb{position:relative;aspect-ratio:1/1;background:#0b0f2c;border:3px solid #000;border-radius:6px;overflow:hidden;box-shadow:0 0 0 3px #111632;}
-    .thumb img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated}
-    .status{text-transform:none;font-size:10px;color:#ffdf6e}
-    .flex{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}
-    .drop{border:1px solid var(--glass-stroke);border-radius:10px;padding:16px;text-align:center;color:var(--muted);background:var(--glass-bg);backdrop-filter:blur(14px) saturate(var(--glass-sat));-webkit-backdrop-filter:blur(14px) saturate(var(--glass-sat));}
-    .drop.drag{border-color:var(--accent);color:#fff;}
-    video, canvas{width:100%;background:#000;border:4px solid #000;border-radius:10px;box-shadow:0 0 0 4px #111632}
-    .countdown{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;color:#fff;text-shadow:4px 4px 0 #000;pointer-events:none;}
-    .progress{height:14px;background:rgba(255,255,255,0.08);border:1px solid var(--glass-stroke);border-radius:6px;overflow:hidden;backdrop-filter:blur(10px) saturate(var(--glass-sat));-webkit-backdrop-filter:blur(10px) saturate(var(--glass-sat));}
-    .progress > div{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));}
-    .result img{max-width:100%;border:4px solid #000;border-radius:10px;box-shadow:0 0 0 4px #111632;image-rendering:pixelated}
-    .hint{color:whitesmoke;font-size:10px;line-height:1.5}
-    .tag{background:#10163a;border:2px solid #0a0f2c;border-radius:6px;padding:6px 8px;font-size:9px}
-    a.link{color:var(--accent);text-decoration:none}
-    footer{margin:32px 0 12px;color:white;font-size:8px;text-align:center}
-
-    /* Square camera preview that crops without distortion */
-    .camera-wrap{
-      position:relative;width:512px;height:512px;max-width:100%;margin:0 auto;overflow:hidden;border-radius:10px;
-    }
-    .camera-wrap video{
-      position:relative;display:block;width:100%;height:100%;object-fit:cover;object-position:center;
-      clip-path:inset(var(--preview-inset));
-    }
-    .frame-preview{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:2;}
-    .frame-preview img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
-
-    /* Form sizing niceties */
-    *, *::before, *::after{box-sizing:border-box;}
-    #shot-count, #interval-secs, #precount-secs, #camera-delay { width: 8ch; max-width:100%; display:inline-block; }
-    #camera-section label{display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:12px;}
-    #camera-section input[type="number"], #camera-section select{width:100%;max-width:500px;box-sizing:border-box;}
-
-    /* Frame picker */
-    .frame-chooser{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
-    .frame-thumb{position:relative;width:72px;height:72px;border-radius:10px;overflow:hidden;border:2px solid #0a0d24;box-shadow:inset 0 0 0 4px #000;background:rgba(255,255,255,0.08);cursor:pointer;}
-    .frame-thumb img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;}
-    .frame-thumb.none::before{content:'None';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:10px;}
-    .frame-thumb.selected{outline:3px solid var(--accent);outline-offset:2px;}
-  </style>
 </head>
 <body>
 
-  <!-- SVG filter holder (kept for future visual effects) -->
+  <!-- Liquid Glass Distortion Filter -->
   <svg width="0" height="0" style="position:absolute">
     <filter id="glass-distortion" x="-15%" y="-15%" width="130%" height="130%" filterUnits="objectBoundingBox">
       <feTurbulence type="turbulence" baseFrequency="0.003" numOctaves="2" seed="3" result="noise"/>
@@ -174,14 +59,16 @@
           </label>
 
           <div>
-            <label>GIF size
+            <label>
+              GIF size
               <select id="gif-size">
                 <option value="256">256×256</option>
                 <option value="320" selected>320×320</option>
                 <option value="512">512×512</option>
               </select>
             </label>
-            <label>Frame delay (ms)
+            <label>
+              Frame delay (ms)
               <input id="upload-delay" type="number" min="20" max="1000" step="10" value="120">
               <small>Lower = faster animation.</small>
             </label>
@@ -203,33 +90,43 @@
             <div class="camera-wrap">
               <video id="video" playsinline autoplay muted></video>
               <div class="countdown" id="countdown" aria-live="polite"></div>
-              <div class="frame-preview" aria-hidden="true"><img id="frame-preview" alt=""></div>
+              <!-- live frame overlay (preview only) -->
+              <div class="frame-preview" aria-hidden="true">
+                <img id="frame-preview" alt="">
+              </div>
             </div>
             <div class="hint" style="margin-top:8px">
               💡 Note: The live preview is mirrored for convenience (like a selfie). The final GIF will not be mirrored.
             </div>
           </div>
+
           <div>
-            <label>Number of photos (10–20)
+            <label>
+              Number of photos (10–20)
               <input id="shot-count" type="number" min="10" max="20" value="20">
             </label>
-            <label>Seconds between photos
+            <label>
+              Seconds between photos
               <input id="interval-secs" type="number" min="1" max="5" value="2">
             </label>
-            <label>Countdown per shot (seconds)
+            <label>
+              Countdown per shot (seconds)
               <input id="precount-secs" type="number" min="1" max="3" value="3">
             </label>
-            <label>Frame delay in final GIF (ms)
+            <label>
+              Frame delay in final GIF (ms)
               <input id="camera-delay" type="number" min="20" max="1000" step="10" value="120">
             </label>
-            <label>GIF size
+            <label>
+              GIF size
               <select id="gif-size-camera">
                 <option value="256">256×256</option>
                 <option value="320" selected>320×320</option>
                 <option value="512">512×512</option>
               </select>
             </label>
-            <label>Frame
+            <label>
+              Frame
               <div id="frame-chooser" class="frame-chooser"></div>
               <small>Pick a frame overlay (optional). It will be baked into the GIF.</small>
             </label>
@@ -244,7 +141,7 @@
       </section>
     </div>
 
-    <!-- BUILD / RESULT -->
+    <!-- BUILD PROGRESS -->
     <div class="card" style="margin-top:14px">
       <div class="row">
         <div>
@@ -271,371 +168,12 @@
     </div>
 
     <footer>
-      Made for someone special J.M 💖<br>
-      📧 <a href="">nicolasnguyenoutlook@gmail.com</a>
+      Made for someone special J.M 💖 <br>
+      📧 <a href="mailto:nicolasnguyenoutlook@gmail.com">nicolasnguyenoutlook@gmail.com</a>
     </footer>
   </div>
 
-  <script>
-    /* Worker URL for gif.js */
-    const GIF_WORKER_URL = URL.createObjectURL(new Blob(
-      ["importScripts('https://unpkg.com/gif.js.optimized/dist/gif.worker.js');"],
-      { type: 'application/javascript' }
-    ));
-
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-
-    /* Beep helper (safe if audio blocked) */
-    function createBeep(){
-      let ctx;
-      return function beep(freq=880, ms=120, type='square'){
-        try{
-          ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-          const o = ctx.createOscillator();
-          const g = ctx.createGain();
-          o.type = type; o.frequency.value = freq;
-          g.gain.setValueAtTime(0.15, ctx.currentTime);
-          g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + ms/1000);
-          o.connect(g); g.connect(ctx.destination);
-          o.start(); o.stop(ctx.currentTime + ms/1000);
-        }catch(_){}
-      }
-    }
-    const beep = createBeep();
-
-    /* Canvas helpers */
-    function makeSquareCanvas(size){
-      const c = document.createElement('canvas');
-      c.width = c.height = size;
-      const cx = c.getContext('2d', { willReadFrequently:true });
-      cx.imageSmoothingEnabled = false;
-      return [c, cx];
-    }
-
-    // Cover (crop) + 1% overscale to avoid 1px seams
-    function drawSquareCover(source, size){
-      const [c, cx] = makeSquareCanvas(size);
-      const w = source.videoWidth || source.naturalWidth || source.width || source.clientWidth;
-      const h = source.videoHeight || source.naturalHeight || source.height || source.clientHeight;
-      const scale = Math.max(size / w, size / h) * 1.01;
-      const nw = Math.round(w * scale), nh = Math.round(h * scale);
-      const x = Math.floor((size - nw) / 2), y = Math.floor((size - nh) / 2);
-      cx.drawImage(source, 0, 0, w, h, x, y, nw, nh);
-      return c;
-    }
-
-    /* Tabs */
-    const tabUploadBtn   = document.getElementById('tab-upload');
-    const tabCameraBtn   = document.getElementById('tab-camera');
-    const uploadSection  = document.getElementById('upload-section');
-    const cameraSection  = document.getElementById('camera-section');
-
-    function setTab(which){
-      const upload = (which === 'upload');
-      tabUploadBtn.classList.toggle('secondary', !upload);
-      tabCameraBtn.classList.toggle('secondary', upload);
-      uploadSection.style.display = upload ? '' : 'none';
-      cameraSection.style.display = upload ? 'none' : '';
-      if (!upload) ensureCameraReady();
-    }
-    tabUploadBtn.onclick = () => setTab('upload');
-    tabCameraBtn.onclick = () => setTab('camera');
-
-    /* Upload handling */
-    const drop = document.getElementById('drop');
-    const fileInput = document.getElementById('file-input');
-    const uploadGrid = document.getElementById('upload-grid');
-    const makeGifUploadBtn = document.getElementById('make-gif-upload');
-    const uploadStatus = document.getElementById('upload-status');
-    const gifSizeSel = document.getElementById('gif-size');
-    const uploadDelay = document.getElementById('upload-delay');
-    const repeatInfinite = { checked:true }; // always loop
-
-    let uploadImages = []; // Image elements in order
-
-    function refreshUploadUI(){
-      uploadGrid.innerHTML = '';
-      uploadImages.forEach(img=>{
-        const d = document.createElement('div'); d.className='thumb';
-        d.appendChild(img); uploadGrid.appendChild(d);
-      });
-      const n = uploadImages.length;
-      const ok = n>=10 && n<=20;
-      makeGifUploadBtn.disabled = !ok;
-      uploadStatus.textContent = ok ? `Ready: ${n} images` : (n ? `Need 10–20 images (currently ${n})` : '');
-    }
-
-    function ingestFiles(files){
-      const list = Array.from(files).filter(f=>f.type.startsWith('image/'));
-      if(!list.length) return;
-      const max = 20 - uploadImages.length;
-      list.slice(0, max).forEach(f=>{
-        const url = URL.createObjectURL(f);
-        const img = new Image();
-        img.onload = ()=>{ img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';img.style.imageRendering='pixelated'; refreshUploadUI(); };
-        img.src = url; uploadImages.push(img);
-      });
-      refreshUploadUI();
-    }
-
-    drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag'); });
-    drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
-    drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('drag'); ingestFiles(e.dataTransfer.files); });
-    fileInput.addEventListener('change', e => ingestFiles(e.target.files));
-
-    /* Camera capture */
-    const video = document.getElementById('video');
-    const countdownEl = document.getElementById('countdown');
-    const startBtn = document.getElementById('start-camera');
-    const stopBtn = document.getElementById('stop-camera');
-    const shotCount = document.getElementById('shot-count');
-    const intervalSecs = document.getElementById('interval-secs');
-    const preCountSecs = document.getElementById('precount-secs');
-    const cameraDelay = document.getElementById('camera-delay');
-    const gifSizeCam = document.getElementById('gif-size-camera');
-    const cameraStatus = document.getElementById('camera-status');
-    const mirrorPreview = document.getElementById('mirror-preview');
-
-    let stream = null;
-    let stopFlag = false;
-
-    function applyPreviewMirror(){
-      video.style.transform = mirrorPreview.checked ? 'scaleX(-1)' : 'none';
-    }
-    mirrorPreview.addEventListener('change', applyPreviewMirror);
-    applyPreviewMirror();
-
-    async function ensureCameraReady(){
-      if(stream) return;
-      try{
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode:'user' }, audio:false });
-        video.srcObject = stream; await video.play();
-      }catch(err){ cameraStatus.textContent = 'Camera error: ' + (err?.message || err); }
-    }
-
-    async function doCountdown(n){
-      for(let i=n;i>0;i--){ countdownEl.textContent=i; beep(880,120); await sleep(1000); }
-      countdownEl.textContent='★'; beep(1200,200); await sleep(120); countdownEl.textContent='';
-    }
-
-    const camBox = document.querySelector('.camera-wrap');
-    function syncPreviewSize(){
-      const s = Number(gifSizeCam.value) || 320;
-      camBox.style.width = camBox.style.height = s + 'px';
-    }
-    gifSizeCam.addEventListener('change', syncPreviewSize);
-    syncPreviewSize();
-
-    async function captureSeries(){
-      cameraStatus.textContent = '';
-      const N = Math.max(10, Math.min(20, Number(shotCount.value)||20));
-      const gap = Math.max(1, Math.min(5, Number(intervalSecs.value)||2)) * 1000;
-      const prec = Math.max(1, Math.min(3, Number(preCountSecs.value)||3));
-      const size = Number(gifSizeCam.value)||320;
-
-      stopFlag = false;
-      startBtn.disabled = true; stopBtn.disabled = false;
-
-      const frames = [];
-      for(let i=0;i<N;i++){
-        if(stopFlag) break;
-        await doCountdown(prec);
-        const base = drawSquareCover(video, size); // cover = crop
-        const overlayImg = PRELOADED_FRAMES.get(selectedFrameId);
-        frames.push( overlayImg ? applyOverlayFrame(base, overlayImg) : base );
-        cameraStatus.textContent = `Captured ${frames.length}/${N}`;
-        if(i < N-1){ await sleep(Math.max(0, gap - 120)); }
-      }
-      startBtn.disabled = false; stopBtn.disabled = true;
-
-      if(frames.length >= 10){
-        const delay = Math.max(20, Number(cameraDelay.value)||120);
-        await buildGif(frames, { delay, repeat:0, size });
-      }else{
-        cameraStatus.textContent = `Capture cancelled (only ${frames.length}/${N}).`;
-      }
-    }
-
-    startBtn.addEventListener('click', captureSeries);
-    stopBtn.addEventListener('click', ()=>{ stopFlag=true; startBtn.disabled=false; stopBtn.disabled=true; countdownEl.textContent=''; });
-
-    /* Frames (transparent PNG overlays) */
-    const FRAME_OPTIONS = [
-      { id:'none',   name:'None',   src:null },
-      { id:'hearts', name:'Golden Hearts', src:'apples_and_hearts.png' },
-      { id:'pearls', name:'Pearls',        src:'christmas.png' },
-      { id:'retro',  name:'Retro TV',      src:'piano_cutesy.png' },
-      { id:'spark',  name:'Sparkle',       src:'frames/sparkle.png' },
-    ];
-
-    const PRELOADED_FRAMES = new Map();
-    let selectedFrameId = 'none';
-    const framePreviewImg = document.getElementById('frame-preview');
-
-    function updateFramePreview(){
-      const opt = FRAME_OPTIONS.find(o => o.id === selectedFrameId);
-      if(opt && opt.src){ framePreviewImg.src = opt.src; framePreviewImg.style.display=''; }
-      else { framePreviewImg.removeAttribute('src'); framePreviewImg.style.display='none'; }
-      // sync selected state across all choosers
-      document.querySelectorAll('.frame-thumb').forEach(t=>{
-        t.classList.toggle('selected', t.dataset.id === selectedFrameId);
-      });
-    }
-
-    function preloadFrames(){
-      FRAME_OPTIONS.forEach(opt=>{
-        if(!opt.src) return;
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.src = opt.src;
-        PRELOADED_FRAMES.set(opt.id, img);
-      });
-    }
-
-    function renderFrameChooser(containerId){
-      const wrap = document.getElementById(containerId);
-      if(!wrap) return;
-      wrap.innerHTML = '';
-      FRAME_OPTIONS.forEach(opt=>{
-        const thumb = document.createElement('div');
-        thumb.className = 'frame-thumb' + (opt.src ? '' : ' none');
-        thumb.dataset.id = opt.id;
-        thumb.title = opt.name;
-
-        if(opt.src){
-          const img = new Image();
-          img.src = opt.src;
-          thumb.appendChild(img);
-        }
-        thumb.addEventListener('click', ()=>{
-          selectedFrameId = opt.id;
-          updateFramePreview();
-        });
-        wrap.appendChild(thumb);
-      });
-      updateFramePreview();
-    }
-
-    function applyOverlayFrame(srcCanvas, overlayImg){
-      const size = srcCanvas.width;
-      const out = document.createElement('canvas');
-      out.width = out.height = size;
-      const cx = out.getContext('2d', { willReadFrequently:true });
-      cx.imageSmoothingEnabled = false;
-      cx.drawImage(srcCanvas, 0, 0);
-      if(overlayImg && overlayImg.complete){ try{ cx.drawImage(overlayImg, 0, 0, size, size); }catch(_){} }
-      return out;
-    }
-
-    preloadFrames();
-    renderFrameChooser('frame-chooser');         // camera tab
-    renderFrameChooser('upload-frame-chooser');  // upload tab
-
-    /* GIF builder */
-    const bar = document.getElementById('bar');
-    const progressStatus = document.getElementById('progress-status');
-    const resultEl = document.getElementById('result');
-    const shareRow = document.getElementById('share-row');
-    const dlBtn = document.getElementById('download');
-    const shareBtn = document.getElementById('share');
-    const copyBtn = document.getElementById('copygif');
-    const openTab = document.getElementById('open-tab');
-
-    let lastBlob = null, lastURL = null;
-
-    async function buildGif(frames, {delay=120, repeat=0, size=320}={}){
-      if(lastURL){ URL.revokeObjectURL(lastURL); lastURL=null; }
-      lastBlob=null; resultEl.innerHTML=''; shareRow.style.display='none';
-      bar.style.width='0%'; progressStatus.textContent='Encoding…';
-
-      try{
-        const gif = new GIF({ workers:2, quality:10, workerScript:GIF_WORKER_URL, width:size, height:size, repeat });
-        frames.forEach(frame => gif.addFrame(frame, { copy:true, delay }));
-        gif.on('progress', p => { bar.style.width = Math.floor(p*100)+'%'; });
-
-        const blob = await new Promise((resolve, reject)=>{
-          gif.on('finished', resolve);
-          gif.on('abort', ()=>reject(new Error('Encoding aborted')));
-          gif.on('error', e=>reject(e||new Error('Encoding error')));
-          gif.render();
-        });
-
-        lastBlob = blob;
-        lastURL = URL.createObjectURL(blob);
-        const img = new Image(); img.src=lastURL; img.alt='Your animated GIF'; img.loading='eager';
-        resultEl.appendChild(img);
-        progressStatus.textContent='Done!'; shareRow.style.display='';
-        openTab.href = lastURL;
-      }catch(err){
-        progressStatus.textContent = 'Failed to encode GIF. ' + (err?.message || '');
-        const hint = document.createElement('div'); hint.className='hint';
-        hint.textContent = 'Tip: if you opened the file directly (file://), host it over http(s) so the worker can run.';
-        resultEl.innerHTML=''; resultEl.appendChild(hint);
-      }
-    }
-
-    /* Upload → GIF (with optional frame) */
-    makeGifUploadBtn.addEventListener('click', async ()=>{
-      const size = Number(gifSizeSel.value)||320;
-      const delay = Math.max(20, Number(uploadDelay.value)||120);
-      const overlay = PRELOADED_FRAMES.get(selectedFrameId);
-      const frames = uploadImages.map(img => {
-        const base = drawSquareCover(img, size);
-        return overlay ? applyOverlayFrame(base, overlay) : base;
-      });
-      await buildGif(frames, { delay, repeat:0, size });
-    });
-
-    /* Share / Download */
-    dlBtn.addEventListener('click', ()=>{
-      if(!lastBlob) return;
-      const a = document.createElement('a');
-      a.href = lastURL; a.download = 'pixel-gif-booth.gif';
-      document.body.appendChild(a); a.click(); a.remove();
-    });
-
-    shareBtn.addEventListener('click', async ()=>{
-      if(!lastBlob) return;
-      const file = new File([lastBlob], 'pixel-gif-booth.gif', { type:'image/gif' });
-      if(navigator.canShare && navigator.canShare({ files:[file] })){
-        try{ await navigator.share({ files:[file], title:'My pixel GIF', text:'Made with Pixel GIF Booth ✨' }); }catch(_){}
-      }else{
-        alert('Your browser does not support system sharing for files. Download the GIF and share it in your app.');
-      }
-    });
-
-    copyBtn.addEventListener('click', async ()=>{
-      if(!lastBlob) return;
-      try{
-        if(navigator.clipboard && window.ClipboardItem){
-          await navigator.clipboard.write([new ClipboardItem({ [lastBlob.type]: lastBlob })]);
-          alert('GIF copied to clipboard! Paste it where you like.');
-        }else{ throw new Error('Clipboard not supported'); }
-      }catch(_){ alert('Clipboard image copy not supported here. Download the GIF instead.'); }
-    });
-
-    /* Upload tab by default? Switch if you want camera first */
-    setTab('camera');
-
-    /* A11y: show focus outlines when tabbing */
-    document.body.addEventListener('keydown', (e)=>{ if(e.key==='Tab'){ document.body.classList.add('kbd'); } });
-
-    /* Glass “hotspot” shimmer */
-    (function(){
-      const glassAreas = document.querySelectorAll('.card, .pill, .drop, .btn');
-      const setSpot = (el, e) => {
-        const r = el.getBoundingClientRect();
-        const x = ((e?.clientX ?? (r.left + r.width/2)) - r.left) / r.width * 100;
-        const y = ((e?.clientY ?? (r.top + r.height/2)) - r.top) / r.height * 100;
-        el.style.setProperty('--spot-x', `${x}%`);
-        el.style.setProperty('--spot-y', `${y}%`);
-      };
-      glassAreas.forEach(el => {
-        setSpot(el, null);
-        el.addEventListener('mousemove', (e)=> setSpot(el, e));
-        el.addEventListener('mouseleave', ()=> setSpot(el, null));
-      });
-    })();
-  </script>
+  <!-- App JS -->
+  <script src="script.js"></script>
 </body>
 </html>
