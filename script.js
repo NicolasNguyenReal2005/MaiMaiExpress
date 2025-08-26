@@ -223,7 +223,7 @@ stopBtn.addEventListener('click', ()=>{ stopFlag = true; startBtn.disabled=false
 const FRAME_OPTIONS = [
   { id: 'none',    name: 'None',          src: null },
   { id: 'hearts',  name: 'Golden Hearts', src: 'borders/apples_and_hearts.png' },
-  { id: 'pearls',  name: 'Pearls',        src: 'borders/background_img.png' },
+  { id: 'pearls',  name: 'Pearls',        src: 'borders/watermelon_frame.png' },
   { id: 'retro',   name: 'Retro TV',      src: 'borders/piano_cutesy.png' },
   { id: 'sparkle', name: 'Sparkle',       src: 'frames/sparkle.png' },
 ];
