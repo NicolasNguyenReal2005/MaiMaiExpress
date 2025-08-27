@@ -225,7 +225,7 @@ const FRAME_OPTIONS = [
   { id: 'hearts',  name: 'Golden Hearts', src: 'borders/apples_and_hearts.png' },
   { id: 'pearls',  name: 'Pearls',        src: 'borders/watermelon_frame.png' },
   { id: 'retro',   name: 'Retro TV',      src: 'borders/piano_cutesy.png' },
-  { id: 'sparkle', name: 'Sparkle',       src: 'frames/sparkle.png' },
+  { id: 'sparkle', name: 'Sparkle',       src: 'borders/cinnamoroll_blue.png' },
 ];
 
 const PRELOADED_FRAMES = new Map();
