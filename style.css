@@ -109,6 +109,7 @@ video, canvas{width:100%;background:#000;border:4px solid #000;border-radius:10p
   position:relative;display:block;width:100%;height:100%;
   object-fit:cover;object-position:center;clip-path: inset(var(--preview-inset));
 }
+.email-link{color: rgb(0, 174, 255)}
 
 /* Frame preview overlay */
 .frame-preview{ position:absolute; inset:0; pointer-events:none; display:flex; align-items:center; justify-content:center; }
