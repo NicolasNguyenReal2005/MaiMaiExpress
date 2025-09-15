@@ -33,7 +33,7 @@ function makeSquareCanvas(size){
   return [c, cx];
 }
 
-// Square “contain” with a tiny overscale to kill hairline gaps
+// Square “contain” 
 function drawSquareContain(source, size){
   const [c, cx] = makeSquareCanvas(size);
   const w = source.videoWidth || source.naturalWidth || source.width || source.clientWidth;
@@ -375,7 +375,7 @@ async function buildGif(frames, {delay=120, repeat=0, size=320}={}){
   }
 }
 
-// Upload → GIF (with optional frame)
+// Upload to GIF
 makeGifUploadBtn.addEventListener('click', async ()=>{
   const size = Number(gifSizeSel.value)||320;
   const delay = Math.max(20, Number(uploadDelay.value)||120);
@@ -438,10 +438,10 @@ refreshUploadUI = function(){ origRefresh(); enableMakeIfValid(); };
 // Default tab
 setTab('camera');
 
-// Keyboard focus helper for outlines (optional)
+// Keyboard focus helper for outlines
 document.body.addEventListener('keydown', (e)=>{ if(e.key === 'Tab'){ document.body.classList.add('kbd'); } });
 
-// Nice glass cursor hotspot (optional)
+// glass cursor hotspot 
 (function(){
   const glassAreas = document.querySelectorAll('.card, .pill, .drop, .btn');
   const setSpot = (el, e) => {
