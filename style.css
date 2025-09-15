@@ -6,7 +6,7 @@
   --btn-edge:#0f1230;
   --warn:#ffdf6e;
 
-  /* Glass tokens */
+ 
   --glass-bg: rgba(255,255,255,0.10);
   --glass-stroke: rgba(255,255,255,0.35);
   --glass-shadow: 0 10px 30px rgba(0,0,0,0.35);
@@ -16,7 +16,6 @@
                                 rgba(255,255,255,0.18) 0%,
                                 rgba(255,255,255,0.06) 35%,
                                 rgba(255,255,255,0.00) 60%);
-  /* tiny crop so video never peeks outside the frame image */
   --preview-inset: 3px;
 }
 
@@ -101,7 +100,7 @@ video, canvas{width:100%;background:#000;border:4px solid #000;border-radius:10p
   font-size:56px;color:#fff;text-shadow:4px 4px 0 #000;pointer-events:none;
 }
 
-/* Square preview that crops the live video */
+/* Square preview that will crops the live video */
 .camera-wrap{
   position:relative;width:512px;height:512px;max-width:100%;margin:0 auto;overflow:hidden;border-radius:10px;
 }
